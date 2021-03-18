@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-firestore.js"></script>
+
+    <!-- Firebase Auth default UI-->
+    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
+    <script>
+
+        // Initialize firebase with Api key
+        var firebaseConfig = {
+            // Insert your own api key here
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+
+        // // login using email and password
+        const ui_config = {
+            signInOptions: [
+                {
+                    provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                    signInMethod: firebase.auth.EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD,
+                    requireDisplayName: true
+                }
+            ],
+
+            signInSuccessUrl: '/',
+            callbacks: {
+                signInSuccess: function (currentUser, credential, redirectUrl) {
+                    const userId = currentUser.uid;
+                    window.location.assign("/OAuth Example/welcome.html");
+                    return false;
+                }
+            }
+
+        }
+
+        // login using OAuth providers
+        // const ui_config = {
+        //     signInOptions: [
+        //         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        //         firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+        //         firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+        //         firebase.auth.GithubAuthProvider.PROVIDER_ID
+        //     ],
+        //     signInSuccessUrl: '/',
+        //     callbacks: {
+        //         signInSuccess: function (currentUser, credential, redirectUrl) {
+        //             const userId = currentUser.uid;
+        //             window.location.assign("/OAuth Example/welcome.html");
+        //             return false;
+        //         }
+        //     }
+        // }
+
+
+        ui.start('#firebaseui-auth-container', ui_config);
+
+        // if (ui.isPendingRedirect()) {
+        //     ui.start('#firebaseui-auth-container', ui_config);
+        // }
+    </script>
+
+</head>
+
+<body>
+    <div id="firebaseui-auth-container">
+    </div>
+</body>
+
+</html>

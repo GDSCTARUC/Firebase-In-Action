@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+
+    <!-- Insert these scripts at the bottom of the HTML, but before you use any Firebase services -->
+
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+
+    <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-analytics.js"></script>
+
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-firestore.js"></script>
+
+    <!-- Firebase Auth default UI-->
+    <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
+    <script>
+        // Initialize firebase with Api key
+        var firebaseConfig = {
+            // Insert your own api key here
+        };
+        firebase.initializeApp(firebaseConfig);
+
+        const auth = firebase.auth();
+        
+        auth.onAuthStateChanged(user => {
+            if (user == null) {
+                window.location.replace("login.html");
+            } else {
+                $("#username").text(user.displayName);
+            }
+            
+        });
+
+        function logout() {
+            auth.signOut().then(() => {
+                console.log('user singed out');
+                window.location.replace("login.html");
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <h1>Welcome <span id="username"></span> !! </h1>
+    </div>
+    <div>
+        <button onclick="logout()">Logout</button>
+    </div>
+</body>
+
+</html>
